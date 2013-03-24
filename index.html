@@ -100,7 +100,7 @@ var buildImage = function(reseultURL) {
 
 $().ready(function(){
 	$.getJSON( nykey , function(data) {
-		console.log(data)
+		//console.log(data)
 
 		$.each(data.results, function(i){
 			var imgurl,
@@ -142,14 +142,16 @@ $().ready(function(){
 				
 				//centers images less then the 1024px, the common size for nyt jumbo sizes - usually a portrait
 				var img_width = this.width;
-				if (img_width < 1280) {
-					$('#jumbo'+i).css({"width":img_width,"display":"block"})
-				}
 				
 				//wanted a nice fade in despite loading time
 				setTimeout (function () {
 					$("#imgdiv"+i).removeClass("loading");
 					$("#jumbo"+i).fadeIn("slow").removeClass("hideimage").addClass("showImage");
+
+					if (img_width < 1280) {
+						$('#jumbo'+i).css({"width":img_width,"display":"block"})
+					}
+
 				}, 3000);
 			});		
 		});
