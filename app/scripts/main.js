@@ -11,13 +11,17 @@ var converter = new Showdown.converter();
 var Article = React.createClass({
   render: function() {
     console.log(this.props)
-
-    return (
-        <li id={this.props.assetID}>
-          <p>{this.props.title}</p>
-          <p>{this.props.byline}</p>
-          <p>{this.props.children}</p>
+    var commentNodes = this.props.data.results.map(function (results) {
+      return (
+        <li id={results.asset_id}>
+          <p>{results.title}</p>
+          <p>{results.byline}</p>
+          <p>{results.children}</p>
         </li>
+      )
+    });
+    return (
+      <ul className="article">{commentNodes}</ul>
     );
   }
 });
@@ -25,19 +29,8 @@ var Article = React.createClass({
 var ArticleList = React.createClass({
   render: function() {
     console.log(this.props.data.results)
-    var commentNodes = this.props.data.results.map(function (results) {
-      return (
-        <Article assetID={results.asset_id}
-          title={results.title}
-          byline={results.byline}>
-            {results.abstract}
-        </Article>
-      );
-    });
     return (
-      <ul className="articleList">
-        {commentNodes}
-      </ul>
+        <Article data={this.props.data} />
     );
   }
 });
