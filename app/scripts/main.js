@@ -27,21 +27,23 @@ var Article = React.createClass({
 
 var ArticleImage = React.createClass({
   render: function() {
-    console.log(this.props.data)
-    var articleImage = this.props.data.media[0]["meta-metadata"].map(function (format) {
-      console.log(format)
+    var media = this.props.data;
+    if (media.media.length) {
 
-          if (format === "superJumbo") {
+      var articleImage = media.media[0]["media-metadata"].map(function (format) {
+
+        if (format.format === "superJumbo") {
           return (
-            url
+            <img src={format.url} />
           )
         }
       });
-      return (
-        <img src={articleImage} />
-      )
+    }
+    return (
+      <span>{articleImage}</span>
+    )
   }
-})
+});
 
 var ArticleList = React.createClass({
   render: function() {
