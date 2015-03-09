@@ -1,12 +1,12 @@
 var ArticleBox = React.createClass({
   render: function() {
     return (
-      <ArticleList data={this.props.data} />
+      <Articles data={this.props.data} />
     );
   }
 });
 
-var Article = React.createClass({
+var Articles = React.createClass({
   render: function() {
     var commentNodes = this.props.data.results.map(function (results) {
       return (
@@ -36,19 +36,10 @@ var ArticleImage = React.createClass({
         }
       });
     }
-    
+
     return (
       <img className="img" src={superImages.map( function(img){ return img })} />
     )
-  }
-});
-
-var ArticleList = React.createClass({
-  render: function() {
-    console.log(this.props.data.results)
-    return (
-        <Article data={this.props.data} />
-    );
   }
 });
 
