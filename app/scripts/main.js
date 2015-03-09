@@ -30,15 +30,15 @@ var ArticleImage = React.createClass({
     var superImages = [];
 
     if (media.media.length) {
-
-      var articleImage = media.media[0]["media-metadata"].map(function (format, i) {
+      media.media[0]["media-metadata"].map(function (format, i) {
         if (format.format === "superJumbo") {
-          return <img src={format.url} />
+          superImages.push(format.url)
         }
       });
     }
+    
     return (
-      <span>{articleImage} </span>
+      <img className="img" src={superImages.map( function(img){ return img })} />
     )
   }
 });
