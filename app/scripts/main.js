@@ -8,7 +8,6 @@ var ArticleBox = React.createClass({
 
 var Article = React.createClass({
   render: function() {
-    console.log(this.props)
     var commentNodes = this.props.data.results.map(function (results) {
       return (
         <li id={results.asset_id}>
@@ -28,19 +27,18 @@ var Article = React.createClass({
 var ArticleImage = React.createClass({
   render: function() {
     var media = this.props.data;
+    var superImages = [];
+
     if (media.media.length) {
 
-      var articleImage = media.media[0]["media-metadata"].map(function (format) {
-
+      var articleImage = media.media[0]["media-metadata"].map(function (format, i) {
         if (format.format === "superJumbo") {
-          return (
-            <img src={format.url} />
-          )
+          return <img src={format.url} />
         }
       });
     }
     return (
-      <span>{articleImage}</span>
+      <span>{articleImage} </span>
     )
   }
 });
