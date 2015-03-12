@@ -1,3 +1,5 @@
+var converter = new Showdown.converter();
+
 var ArticleBox = React.createClass({
   render: function() {
     return (
@@ -19,13 +21,24 @@ var Captions = React.createClass({
 
 var Articles = React.createClass({
   render: function() {
-    var commentNodes = this.props.data.results.map(function (results) {
-      return (
-        <li id={results.asset_id}>
-          <ArticleImage data={results} />
-          <Captions data={results} />
-        </li>
-      )
+    var results = this.props.data.results;
+
+    var commentNodes = results.map(function (result) {
+
+      if (result.section !== "Opinion" && result.media.length ) {
+
+        result.media[0]["media-metadata"].map(function (sups) {
+         
+          if (sups.format === "superJumbo") {
+            return (
+              <li>
+                <ArticleImage data={result} />
+                <Captions data={result} />
+              </li>
+            )
+          }
+        })
+    }
     });
     return (
       <ul className="article">{commentNodes}</ul>
