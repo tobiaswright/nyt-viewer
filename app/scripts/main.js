@@ -6,15 +6,24 @@ var ArticleBox = React.createClass({
   }
 });
 
+var Captions = React.createClass({
+  render: function() {
+    return (
+      <div>
+        <h3>{this.props.data.title}</h3>
+        <p>{this.props.data.byline}</p>
+      </div>
+    );
+  }
+});
+
 var Articles = React.createClass({
   render: function() {
     var commentNodes = this.props.data.results.map(function (results) {
       return (
         <li id={results.asset_id}>
           <ArticleImage data={results} />
-          <p>{results.title}</p>
-          <p>{results.byline}</p>
-          <p>{results.children}</p>
+          <Captions data={results} />
         </li>
       )
     });
@@ -30,7 +39,7 @@ var ArticleImage = React.createClass({
     var superImages = [];
 
     if (media.media.length) {
-      media.media[0]["media-metadata"].map(function (format, i) {
+      media.media[0]["media-metadata"].map(function (format) {
         if (format.format === "superJumbo") {
           superImages.push(format.url)
         }
