@@ -27,17 +27,13 @@ var Articles = React.createClass({
 
       if (result.section !== "Opinion" && result.media.length ) {
 
-        result.media[0]["media-metadata"].map(function (sups) {
-         
-          if (sups.format === "superJumbo") {
+
             return (
               <li>
                 <ArticleImage data={result} />
                 <Captions data={result} />
               </li>
             )
-          }
-        })
     }
     });
     return (
@@ -53,7 +49,7 @@ var ArticleImage = React.createClass({
 
     if (media.media.length) {
       media.media[0]["media-metadata"].map(function (format) {
-        if (format.format === "superJumbo") {
+        if (format.format === "superJumbo" ) {
           superImages.push(format.url)
         }
       });
