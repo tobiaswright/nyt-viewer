@@ -9,32 +9,31 @@ var ArticleBox = React.createClass({
 });
 
 var Captions = React.createClass({
+  
   render: function() {
+    var rawMarkup = converter.makeHtml('###'+this.props.data.title.toString());
     return (
       <div>
-        <h3>{this.props.data.title}</h3>
+        <span dangerouslySetInnerHTML={{__html: rawMarkup}} />
         <p>{this.props.data.byline}</p>
       </div>
     );
   }
 });
 
+
 var Articles = React.createClass({
   render: function() {
     var results = this.props.data.results;
-
     var commentNodes = results.map(function (result) {
-
       if (result.section !== "Opinion" && result.media.length ) {
-
-
-            return (
-              <li>
-                <ArticleImage data={result} />
-                <Captions data={result} />
-              </li>
-            )
-    }
+        return (
+          <li>
+            <ArticleImage data={result} />
+            <Captions data={result} />
+          </li>
+        )
+      }
     });
     return (
       <ul className="article">{commentNodes}</ul>
