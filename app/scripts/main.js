@@ -1,9 +1,25 @@
 var converter = new Showdown.converter();
 
 var ArticleBox = React.createClass({
+  getInitialState: function() {
+    return {data: []};
+  },
+  componentDidMount: function() {
+    var that = this
+    var options = {
+      url: 'http://api.nytimes.com/svc/mostpopular/v2/mostviewed/all-sections/1.json',
+      source: "nytimes"
+    };
+
+    $.getJSON( "https://radiant-bayou-8874.herokuapp.com/proxy", options, function(data){
+      data = JSON.parse(data);
+      that.setState({data: data.results});
+      console.log(this, that)
+    });
+  },
   render: function() {
-    return (
-      <Articles data={this.props.data} />
+        return (
+      <Articles data={this.state.data} />
     );
   }
 });
@@ -11,6 +27,7 @@ var ArticleBox = React.createClass({
 var Captions = React.createClass({
   
   render: function() {
+    console.log(this.props.data)
     var rawMarkup = converter.makeHtml('###'+this.props.data.title.toString());
     return (
       <div>
@@ -24,7 +41,9 @@ var Captions = React.createClass({
 
 var Articles = React.createClass({
   render: function() {
-    var results = this.props.data.results;
+    console.log("allo", this.props.data)
+    var results = this.props.data;
+    console.log("allo", results)
     var commentNodes = results.map(function (result) {
       if (result.section !== "Opinion" && result.media.length ) {
         return (
@@ -61,6 +80,6 @@ var ArticleImage = React.createClass({
 });
 
 React.render(
-  <ArticleBox data={timesData}/>,
+  <ArticleBox />,
   document.getElementById('content')
 );
