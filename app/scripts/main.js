@@ -1,19 +1,10 @@
 var converter = new Showdown.converter();
 
 var ArticleBox = React.createClass({
-  getInitialState: function() {
-    return {data: []};
-  },
-  componentDidMount: function() {
-    var that = this;
-    var articles = [];
-    var results;
-    var options = {
-      url: 'http://api.nytimes.com/svc/mostpopular/v2/mostviewed/all-sections/1.json',
-      source: "nytimes"
-    };
+  sortData: function(data) {
+      var articles = [];
+      var results;
 
-    $.getJSON( "https://radiant-bayou-8874.herokuapp.com/proxy", options, function(data){
       data = JSON.parse(data);
 
       results = data.results
@@ -33,6 +24,21 @@ var ArticleBox = React.createClass({
           });
         }
       })
+
+      return articles;
+  },
+  getInitialState: function() {
+    return {data: []};
+  },
+  componentDidMount: function() {
+    var that = this;
+    var options = {
+      url: 'http://api.nytimes.com/svc/mostpopular/v2/mostviewed/all-sections/1.json',
+      source: "nytimes"
+    };
+
+    $.getJSON( "https://radiant-bayou-8874.herokuapp.com/proxy", options, function(data){
+      var articles = that.sortData(data);
       that.setState({data: articles});
     });
   },
