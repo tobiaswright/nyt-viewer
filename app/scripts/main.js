@@ -57,7 +57,7 @@ var Captions = React.createClass({
     return (
       <div>
         <span dangerouslySetInnerHTML={{__html: rawMarkup}} />
-        <p>{this.props.byline}</p>
+        <p className="byline">{this.props.byline}</p>
       </div>
     );
   }
