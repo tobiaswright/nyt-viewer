@@ -1,5 +1,6 @@
 'use strict';
 
+//bring in converter
 var converter = new Showdown.converter();
 
 var ArticleBox = React.createClass({
