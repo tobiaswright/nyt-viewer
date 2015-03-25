@@ -31,7 +31,7 @@ var ArticleBox = React.createClass({
       return articles;
   },
   getInitialState: function() {
-    return {data: []};
+    return {data: [], isLoading: true};
   },
   componentDidMount: function() {
     var that = this;
@@ -42,12 +42,12 @@ var ArticleBox = React.createClass({
 
     $.getJSON( 'https://radiant-bayou-8874.herokuapp.com/proxy', options, function(data){
       var articles = that.sortData(data);
-      that.setState({data: articles});
+      that.setState({data: articles, isLoading: false});
     });
   },
   render: function() {
     return (
-      <Articles data={this.state.data} />
+      <Articles data={this.state.data} message={this.state.isLoading} />
     );
   }
 });
@@ -65,9 +65,14 @@ var Captions = React.createClass({
 });
 
 var Articles = React.createClass({
+  getInitialState: function() {
+    return {isLoading: this.props.message};
+  },
   render: function() {
     var results = this.props.data;
-    var commentNodes = results.map(function (result) {
+    var commentNodes;
+    if (this.state.isLoading) {
+      commentNodes = results.map(function (result) {
         return (
           <li>
             <ArticleImage image={result.img} />
@@ -75,6 +80,15 @@ var Articles = React.createClass({
           </li>
         )
     });
+    } else {
+      commentNodes = 
+
+          <li>
+            Loading ...
+          </li>
+
+    }
+
     return (
       <ul className='article'>{commentNodes}</ul>
     );
