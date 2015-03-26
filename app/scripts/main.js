@@ -42,13 +42,16 @@ var ArticleBox = React.createClass({
 
     $.getJSON( 'https://radiant-bayou-8874.herokuapp.com/proxy', options, function(data){
       var articles = that.sortData(data);
-      that.setState({data: articles, isLoading: false});
+      that.onUpdate(articles);
     });
   },
   render: function() {
     return (
-      <Articles data={this.state.data} message={this.state.isLoading} />
+      <Articles data={this.state.data} isLoading={this.state.isLoading} />
     );
+  },
+  onUpdate: function(val){
+    this.setState({data: val, isLoading: false});
   }
 });
 
@@ -65,13 +68,10 @@ var Captions = React.createClass({
 });
 
 var Articles = React.createClass({
-  getInitialState: function() {
-    return {isLoading: this.props.message};
-  },
   render: function() {
     var results = this.props.data;
     var commentNodes;
-    if (this.state.isLoading) {
+    if (!this.props.isLoading) {
       commentNodes = results.map(function (result) {
         return (
           <li>
