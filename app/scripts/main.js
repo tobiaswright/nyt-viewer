@@ -20,7 +20,8 @@ var ArticleBox = React.createClass({
                 'title':result.title,
                 'url':result.url,
                 'byline':result.byline,
-                'img':image.url
+                'img':image.url,
+                'abstract':result.abstract
               };
               articles.push(article);
             }
@@ -34,15 +35,15 @@ var ArticleBox = React.createClass({
     return {data: [], isLoading: true};
   },
   componentDidMount: function() {
-    var that = this;
+    var self = this;
     var options = {
       url: 'http://api.nytimes.com/svc/mostpopular/v2/mostviewed/all-sections/1.json',
       source: 'nytimes'
     };
 
     $.getJSON( 'https://radiant-bayou-8874.herokuapp.com/proxy', options, function(data){
-      var articles = that.sortData(data);
-      that.onUpdate(articles);
+      var articles = self.sortData(data);
+      self.onUpdate(articles);
     });
   },
   render: function() {
@@ -56,12 +57,16 @@ var ArticleBox = React.createClass({
 });
 
 var Captions = React.createClass({
+
   render: function() {
-    var rawMarkup = converter.makeHtml('###'+this.props.title);
+    var titleMarkup = converter.makeHtml('###'+this.props.article.title);
+    var abstractMarkup = converter.makeHtml(this.props.article.abstract);
     return (
       <div>
-        <span dangerouslySetInnerHTML={{__html: rawMarkup}} />
-        <p className="byline">{this.props.byline}</p>
+        <span dangerouslySetInnerHTML={{__html: titleMarkup}} />
+        <p className="byline">{this.props.article.byline}</p>
+        <span dangerouslySetInnerHTML={{__html: abstractMarkup}} />
+        <a href={this.props.article.url} target="_blank">READ ARTICLE</a>
       </div>
     );
   }
@@ -73,10 +78,11 @@ var Articles = React.createClass({
     var commentNodes;
     if (!this.props.isLoading) {
       commentNodes = results.map(function (result) {
+        var article = {title:result.title, abstract:result.abstract, byline:result.byline, url:result.url}
         return (
           <li>
             <ArticleImage image={result.img} />
-            <Captions title={result.title} byline={result.byline} />
+            <Captions article={article} />
           </li>
         )
     });
